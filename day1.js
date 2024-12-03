@@ -30,3 +30,19 @@ for (let i = 0; i < sort1.length; i++) {
 }
 
 console.log(totalDistance)
+
+//part 2
+
+//create frequency map for list2
+let frequencyMap = {}
+list2.forEach(num => {
+  frequencyMap[num] = (frequencyMap[num] || 0) + 1
+})
+
+let similarityScore = 0
+list1.forEach(num => {
+  const count = frequencyMap[num] || 0 //checks for occurances in list2
+  similarityScore += num * count //multiple this by its count
+})
+
+console.log(similarityScore)
