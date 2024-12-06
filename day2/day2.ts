@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Day1 Advent of Code</title>
-</head>
-<body>
-    <div id="data">
-      51 52 55 58 60 61 62 61
+const input = `51 52 55 58 60 61 62 61
 64 65 67 70 72 74 77 77
 2 4 6 9 11 14 18
 79 81 82 84 86 88 91 97
@@ -1006,9 +997,44 @@
 40 39 36 34 32 31 30 28
 52 54 56 57 58 60
 50 49 48 46 43 42
-15 12 11 9 6 4
-    </div>
+15 12 11 9 6 4`;
 
-    <script src="day2.js"></script>
-</body>
-</html>
+function isSafe(levels: number[]) {
+  const differences: number[] = [];
+
+  for (let i = 1; i < levels.length; i++) {
+    differences.push(levels[i] - levels[i - 1])
+  }
+
+  const increasing = differences.every((d) => d >= 1 && d <= 3)
+  const decreasing = differences.every((d) => d <= -1 && d >= -3)
+
+  return increasing || decreasing
+}
+
+function day02() {
+  const reports = input.split("\n").map((line) => line.trim().split(/\s+/).map(Number));
+  
+  let safe = 0
+  let madeSafe = 0
+
+  for (const report of reports) {
+    let tolerable = false
+
+    for (let i = 0; i < report.length; i++) {
+      const removed = [...report.slice(0, i), ...report.slice(i + 1)]
+
+      if (isSafe(removed)) {
+        tolerable = true
+        break
+      }
+    }
+
+    if (isSafe(report)) safe++
+    if (isSafe(report) || tolerable) madeSafe++
+  }
+
+  return [safe, madeSafe]
+}
+
+console.log(day02())
