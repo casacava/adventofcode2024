@@ -4,7 +4,7 @@ function calculateCalibrationSum(input: string): number {
 
   // helper fx to generate all operator combinations
   const generateOperators = (length: number): string[][] => {
-    const operators = ["+", "*"]
+    const operators = ["+", "*", "||"]
     const results: string[][] = []
 
     const backtrack = (combination: string[], pos: number) => {
@@ -28,8 +28,10 @@ function calculateCalibrationSum(input: string): number {
   const evaluate = (nums: number[], ops: string[]): number => {
     let result = nums[0]
     for (let i = 0; i < ops.length; i++) {
-      if (ops[i] === "+") result += nums[i + 1]
-      else if (ops[i] === "*") result *= nums[i + 1]
+      const nextNum = nums[i + 1]
+      if (ops[i] === "+") result += nextNum[i + 1]
+      else if (ops[i] === "*") result *= nextNum[i + 1]
+      else if (ops[i] === "||") result = Number(result.toString() + nextNum.toString())
     }
     return result
   }
